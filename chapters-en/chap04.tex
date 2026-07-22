@@ -25,9 +25,10 @@ colour, also a formal specification of the colour space.
 \end{itemize}
 
 This template uses the {\tt pdfx} package, which can configure \LaTeX{}
-to satisfy the PDF/A requirements. The XMP metadata is generated automatically from the
-information in the file matching your main file's name, e.g. {\tt thesis-en.xmpdata} (you can look at the
-generated file in {\tt pdfa.xmpi}).
+to satisfy the PDF/A requirements. The XMP metadata is generated automatically by
+{\tt pdfx} (you can look at the generated file in {\tt pdfa.xmpi}); this
+alone satisfies PDF/A's requirement that the document carry XMP metadata,
+without needing to maintain a separate file.
 
 PDF/A validity can be checked using an online validator: \url{https://www.pdf-online.com/osa/validate.aspx/}.
 

@@ -25,11 +25,10 @@ Per Charles University's formal requirements, **both** a Czech and an English ti
 ### Quick start
 
 1. Copy whichever example matches your thesis language — `thesis-en.tex` (+ `chapters-en/`, `appendices-en/`) or `thesis-cs.tex` (+ `chapters-cs/`, `appendices-cs/`) — and rename them for your thesis (e.g. `thesis-en.tex` → `mythesis.tex`).
-2. **Rename the matching `.xmpdata` file to match** (`thesis-en.xmpdata` → `mythesis.xmpdata`) — `pdfx` looks up `\jobname.xmpdata` for PDF/A metadata, so this must track your main file's basename exactly.
-3. Edit the metadata macros at the top of your main file: `\ThesisTitle`, `\ThesisTitleCZ`, `\ThesisAuthor`, `\Supervisor`, `\StudyProgramme`, `\YearSubmitted`, `\Acknowledgements`, `\Abstract`/`\AbstractCZ`, `\Keywords`/`\KeywordsCZ`, and `\ThesisType{bachelor|master|rigorous|dissertation|lifelong}`.
-4. Write your chapters as separate `.tex` files (see `chapters-en/`/`chapters-cs/` for the pattern) and `\include` them between `\thesisfrontmatter` and `\thesisbibliography`.
-5. Add references to `bibliography.bib` and cite them with `\cite{key}`.
-6. Build (see below).
+2. Edit the metadata macros at the top of your main file: `\ThesisTitle`, `\ThesisTitleCZ`, `\ThesisAuthor`, `\Supervisor`, `\StudyProgramme`, `\YearSubmitted`, `\Acknowledgements`, `\Abstract`/`\AbstractCZ`, `\Keywords`/`\KeywordsCZ`, and `\ThesisType{bachelor|master|rigorous|dissertation|lifelong}`.
+3. Write your chapters as separate `.tex` files (see `chapters-en/`/`chapters-cs/` for the pattern) and `\include` them between `\thesisfrontmatter` and `\thesisbibliography`.
+4. Add references to `bibliography.bib` and cite them with `\cite{key}`. To use a different filename, call `\Bibliography{myrefs.bib}` in the main file before `\begin{document}`.
+5. Build (see below).
 
 ### Build
 
@@ -50,10 +49,9 @@ Output: `thesis-en.pdf`. Everything else generated during the build (`.aux`, `.b
 |---|---|
 | `upsgthesis.cls` | The class — all structure/margins/packages/language logic. Edit here for document-wide formatting changes. |
 | `thesis-en.tex` / `thesis-cs.tex` | Example main files. Copy and rename to start a real thesis. |
-| `thesis-en.xmpdata` / `thesis-cs.xmpdata` | PDF/A metadata, one per main file (must match its basename). |
 | `chapters-en/` / `chapters-cs/` | Thesis chapters, one file per chapter, `\include`d from the main file. |
 | `appendices-en/` / `appendices-cs/` | Appendices, `\include`d after `\thesisappendices`. Every appendix must be referenced at least once from the main text. |
-| `bibliography.bib` | Shared bibliography database (BibTeX/biblatex format). |
+| `bibliography.bib` | Default bibliography database (BibTeX/biblatex format); override with `\Bibliography{filename.bib}`. |
 | `figures/` | Shared image assets, including the faculty logos. |
 | `czech-apa.lbx` / `english-apa.lbx` | APA citation-style localization files the class depends on. |
 
@@ -87,11 +85,10 @@ Podle formálních požadavků Univerzity Karlovy jsou **vždy** povinné jak č
 ### Rychlý start
 
 1. Zkopírujte příklad odpovídající jazyku vaší práce — `thesis-en.tex` (+ `chapters-en/`, `appendices-en/`) nebo `thesis-cs.tex` (+ `chapters-cs/`, `appendices-cs/`) — a přejmenujte podle své práce (např. `thesis-cs.tex` → `mojeprace.tex`).
-2. **Stejně přejmenujte odpovídající soubor `.xmpdata`** (`thesis-cs.xmpdata` → `mojeprace.xmpdata`) — balíček `pdfx` hledá metadata pro PDF/A v souboru `\jobname.xmpdata`, takže musí přesně odpovídat názvu hlavního souboru.
-3. Upravte makra s údaji o práci na začátku hlavního souboru: `\ThesisTitleCZ`, `\ThesisTitle`, `\ThesisAuthor`, `\Supervisor`, `\StudyProgramme`, `\YearSubmitted`, `\Acknowledgements`, `\AbstractCZ`/`\Abstract`, `\KeywordsCZ`/`\Keywords` a `\ThesisType{bachelor|master|rigorous|dissertation|lifelong}`.
-4. Kapitoly pište jako samostatné `.tex` soubory (viz vzor v `chapters-cs/`/`chapters-en/`) a vkládejte je příkazem `\include` mezi `\thesisfrontmatter` a `\thesisbibliography`.
-5. Do `bibliography.bib` doplňte reference a citujte je pomocí `\cite{klíč}`.
-6. Sestavte dokument (viz níže).
+2. Upravte makra s údaji o práci na začátku hlavního souboru: `\ThesisTitleCZ`, `\ThesisTitle`, `\ThesisAuthor`, `\Supervisor`, `\StudyProgramme`, `\YearSubmitted`, `\Acknowledgements`, `\AbstractCZ`/`\Abstract`, `\KeywordsCZ`/`\Keywords` a `\ThesisType{bachelor|master|rigorous|dissertation|lifelong}`.
+3. Kapitoly pište jako samostatné `.tex` soubory (viz vzor v `chapters-cs/`/`chapters-en/`) a vkládejte je příkazem `\include` mezi `\thesisfrontmatter` a `\thesisbibliography`.
+4. Do `bibliography.bib` doplňte reference a citujte je pomocí `\cite{klíč}`. Pro jiný název souboru zavolejte v hlavním souboru před `\begin{document}` příkaz `\Bibliography{muj_seznam.bib}`.
+5. Sestavte dokument (viz níže).
 
 ### Sestavení (build)
 
@@ -112,10 +109,9 @@ Výstup: `thesis-cs.pdf`. Vše ostatní vzniklé při sestavení (`.aux`, `.bbl`
 |---|---|
 | `upsgthesis.cls` | Třída — veškerá struktura/okraje/balíčky/jazyková logika. Zde upravujte formátování platné pro celý dokument. |
 | `thesis-en.tex` / `thesis-cs.tex` | Ukázkové hlavní soubory. Zkopírujte a přejmenujte pro skutečnou práci. |
-| `thesis-en.xmpdata` / `thesis-cs.xmpdata` | Metadata PDF/A, jeden soubor pro každý hlavní soubor (musí odpovídat jeho názvu). |
 | `chapters-en/` / `chapters-cs/` | Kapitoly práce, jeden soubor na kapitolu, vkládané příkazem `\include` z hlavního souboru. |
 | `appendices-en/` / `appendices-cs/` | Přílohy, vkládané po `\thesisappendices`. Každá příloha musí být alespoň jednou odkazována z vlastního textu. |
-| `bibliography.bib` | Sdílená databáze literatury (formát BibTeX/biblatex). |
+| `bibliography.bib` | Výchozí databáze literatury (formát BibTeX/biblatex); jiný soubor lze nastavit příkazem `\Bibliography{název.bib}`. |
 | `figures/` | Sdílené obrázky, včetně loga fakulty. |
 | `czech-apa.lbx` / `english-apa.lbx` | Lokalizační soubory citačního stylu APA, na kterých třída závisí. |
 

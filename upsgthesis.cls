@@ -54,6 +54,8 @@
 %% \hypersetup after pdfx is loaded.
 \RequirePackage[a-2u]{pdfx}     % the resulting PDF will conform to the PDF/A-2u standard
 \hypersetup{hidelinks}
+\hypersetup{pdfa}
+\hypersetup{unicode}
 
 %% Language: Czech or English typesetting, Latin Modern fonts, proper font encoding.
 \ifupsgCzech
@@ -107,7 +109,9 @@
 % Page numbers without a prefix
 \DeclareFieldFormat{pages}{#1}
 \let\cite\parencite
-\addbibresource{bibliography.bib}
+\def\upsgBibFile{bibliography.bib}
+\newcommand{\Bibliography}[1]{\renewcommand{\upsgBibFile}{#1}}
+\AtEndPreamble{\addbibresource{\upsgBibFile}}
 
 %%% Other useful packages (part of common LaTeX distributions)
 \RequirePackage{amsmath}        % extensions for typesetting mathematics
