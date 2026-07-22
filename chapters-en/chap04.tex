@@ -1,0 +1,47 @@
+%%% Sample chapter with PDF/A instructions
+
+\chapter{The PDF/A Format}\label{chap:pdfa}
+
+The electronic form of final theses
+must be submitted in PDF/A format, level 1a or 2u. These are
+profiles of the PDF format that determine which PDF features are permitted
+to be used, so that documents are suitable for long-term archiving and
+further automated processing. We will focus on level 2u, which we typeset with \TeX.
+
+The most important requirements of PDF/A-2u include:
+
+\begin{itemize}
+
+\item All fonts must be embedded inside the document. References to
+external fonts are not permitted (not even to \enquote{system} fonts such as Helvetica or Times).
+
+\item Fonts must contain a ToUnicode table, which defines the mapping from the
+character encoding used inside the font to Unicode. This makes it
+possible to reliably extract text from the document.
+
+\item The document must contain metadata in XMP format, and if it is in
+colour, also a formal specification of the colour space.
+
+\end{itemize}
+
+This template uses the {\tt pdfx} package, which can configure \LaTeX{}
+to satisfy the PDF/A requirements. The XMP metadata is generated automatically from the
+information in the file matching your main file's name, e.g. {\tt thesis-en.xmpdata} (you can look at the
+generated file in {\tt pdfa.xmpi}).
+
+PDF/A validity can be checked using an online validator: \url{https://www.pdf-online.com/osa/validate.aspx/}.
+
+If the file is not valid, common causes include the use of less common
+fonts (which are embedded only in bitmap form and/or without Unicode
+tables) and the inclusion of images in PDF that do not themselves conform to
+the PDF/A standard.
+
+This is likely to affect images created by many different programs.
+In such a case, you can try to convert the image to PDF/A using
+GhostScript, for example like this:
+
+\begin{verbatim}
+        gs -q -dNOPAUSE -dBATCH
+           -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress
+           -sOutputFile=output.pdf input.pdf
+\end{verbatim}

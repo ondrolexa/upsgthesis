@@ -1,0 +1,42 @@
+%%% Sample chapter with citation examples
+
+\chapter{Working with References}
+
+The template assumes the use of a bibliography database for greater flexibility. Using a bibliography database is not a strict requirement; the standard \texttt{thebibliography} environment can also be used instead. In that case, however, the \texttt{upsgthesis.cls} class and main file need to be modified, as described below.
+
+\section{Using a bibliography database}
+
+\begin{enumerate}
+\item\textbf{Changing the database name}\\
+The template assumes a database stored in the file \texttt{bibliography.bib}. If the database has a different name, the value of the \verb'\addbibresource' command's parameter must be changed in \texttt{upsgthesis.cls}.
+\item\textbf{Changing the citation style}\\
+By default, citations in the text are given in numeric form. Switching to the surname-and-year combination is easy: change \texttt{upsgthesis.cls}, where you swap the comment character in the parameters for the \texttt{biblatex} package.
+\end{enumerate}
+
+
+\section{Using the \texttt{thebibliography} environment}
+\begin{enumerate}
+\item In \texttt{upsgthesis.cls}, delete these lines near the beginning:
+\begin{verbatim}
+%%% Settings for using a standalone bibliography database
+\RequirePackage[
+   backend=biber
+  ,style=iso-authoryear %iso-numeric
+  ,sortlocale=en_US
+  ,bibencoding=UTF8
+  %,block=ragged
+]{biblatex}
+\addbibresource{bibliography.bib}
+\end{verbatim}
+\item In \texttt{upsgthesis.cls}, edit the \verb'\thesisbibliography' command: remove the \verb'\printbibliography' call and replace it with the \texttt{thebibliography} environment.
+\end{enumerate}
+
+
+\section{How to Cite in the Text}
+\begin{center}
+\begin{tabular}{l@{~~$\longrightarrow$~~}l}
+\verb|\cite{Cermak2018}|&\cite{Cermak2018}\\
+\verb|\cite{Hladik2018,Jasek2018}|&\cite{Hladik2018,Jasek2018}\\
+\verb|\cite[ch. 3]{Pecakova2018}|&\cite[ch. 3]{Pecakova2018}\\
+\end{tabular}
+\end{center}

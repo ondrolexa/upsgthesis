@@ -1,0 +1,42 @@
+%%% Fiktivní kapitola s ukázkami citací
+
+\chapter{Práce s literaturu}
+
+Šablona předpokládá použití bibliografické databáze z důvodu větší flexibility. Použití bibliografické databáze není nutnou podmínkou, lze si vystačit i se standardním prostředím \texttt{thebibliography}. V takovém případě je však zapotřebí provést zásahy do třídy \texttt{upsgthesis.cls} a hlavního souboru, jak je uvedeno dále.
+
+\section{Použití bibliografické databáze}
+
+\begin{enumerate}
+\item\textbf{Změna názvu databáze}\\
+V šabloně se předpokládá databáze uložená v souboru \texttt{bibliography.bib}. Pokud se databáze jmenuje jinak, pak je nutné ve třídě \texttt{upsgthesis.cls} změnit hodnotu parametru příkazu \verb'\addbibresource'.
+\item\textbf{Změna citačního stylu}\\
+Standardně se citace v textu uvádějí v číselné variantě. Na použití kombinace příjmení a roku lze snadno přepnout změnou ve třídě \texttt{upsgthesis.cls}, kde se prohodí komentářový znak v parametrech pro balíček \texttt{biblatex}.
+\end{enumerate}
+
+
+\section{Použití prostředí \texttt{thebibliography}}
+\begin{enumerate}
+\item Ve třídě \texttt{upsgthesis.cls} vymazat na počátku tyto řádky:
+\begin{verbatim}
+%%% Nastavení pro použití samostatné bibliografické databáze
+\RequirePackage[
+   backend=biber
+  ,style=iso-authoryear %iso-numeric
+  ,sortlocale=cs_CZ
+  ,bibencoding=UTF8
+  %,block=ragged
+]{biblatex}
+\addbibresource{bibliography.bib}
+\end{verbatim}
+\item Ve třídě \texttt{upsgthesis.cls} upravit příkaz \verb'\thesisbibliography', odstranit v něm \verb'\printbibliography' a nahradit ho prostředím \texttt{thebibliography}.
+\end{enumerate}
+
+
+\section{Jak citovat v textu}
+\begin{center}
+\begin{tabular}{l@{~~$\longrightarrow$~~}l}
+\verb|\cite{Cermak2018}|&\cite{Cermak2018}\\
+\verb|\cite{Hladik2018,Jasek2018}|&\cite{Hladik2018,Jasek2018}\\
+\verb|\cite[kap. 3]{Pecakova2018}|&\cite[kap. 3]{Pecakova2018}\\
+\end{tabular}
+\end{center}

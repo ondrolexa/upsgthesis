@@ -1,0 +1,7 @@
+% Metadata to be stored in the PDF; for a more detailed description, see the pdfx package documentation.
+
+\Author{First Last}
+\Title{Thesis title}
+\Keywords{keywords\sep another one\sep yet another}
+\Subject{Thesis abstract}
+\Publisher{Charles University, Faculty of Science}

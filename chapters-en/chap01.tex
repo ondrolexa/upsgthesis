@@ -1,0 +1,29 @@
+%%% Sample chapter with typesetting examples
+
+\chapter{Typesetting Guide}
+
+\section{Formatting the thesis}
+
+The thesis text itself is organized hierarchically into chapters and sections, with each chapter starting on a new page. Text is justified. A new paragraph is usually separated by a small vertical space and indentation of the first line. The visual formatting should be consistent throughout the text.
+
+Abbreviations used in the text must be explained at their first occurrence (in parentheses or in a footnote, if a more complex explanation of the term or abbreviation is needed). If there are many abbreviations, a list of abbreviations used should be added, including their explanation and/or references to their definition.
+
+Longer text taken over from another author must be delimited with quotation marks or otherwise marked, and properly cited.
+
+\section{Simple examples}
+
+A narrow (non-breaking) space belongs between a number and a unit: the width of an A4 page is $210\,\rm mm$, which only $5\,\%$ of authors remember. But when the value is used attributively, the space is omitted: a $25\rm mm$ margin, a $95\%$ confidence interval.
+
+We distinguish between different kinds of dashes:
+red-black (hyphen),
+pages 16--22 (en dash),
+$45-44$ (mathematical minus),
+and this is --- as you probably expected --- a parenthetical clause set off by em dashes.
+
+Don't hard-code quotation marks with \texttt{``like this''}; use \verb|\enquote{like this}| instead. \enquote{Like this}, it automatically follows the typographic convention of whichever language babel is currently set to, so the same source works unchanged if the thesis language ever changes.
+
+% This paragraph makes the tilde visible
+{
+\def~{{\tt\char126}}
+In several places you need to prevent a line break (in \TeX{} we mark this with a tilde): between a number/letter and the unit or word that must stay with it -- vertex~$v$, in $k$~steps, Fig.~3, pp.~12--15, Ch.~5 -- and generally anywhere a line break would leave the reader \enquote{stumbling}, such as before a short word stranded at the start or end of a line.
+}

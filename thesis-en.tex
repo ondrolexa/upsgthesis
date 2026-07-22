@@ -1,0 +1,74 @@
+%% All structure, margins, title page, and packages live in upsgthesis.cls.
+%% Language is selected here via the class option (english/czech); pass
+%% 'twoside,openright' too for double-sided printing.
+\documentclass[english,12pt,a4paper,twoside,openright]{upsgthesis}
+
+%%% Thesis details
+% Thesis title, in English (exactly as in the assignment)
+\ThesisTitle{Thesis title}
+% Thesis title, in Czech (exactly as in the assignment)
+\ThesisTitleCZ{Název práce}
+
+% Thesis type
+\ThesisType{bachelor}
+%\ThesisType{master}
+%\ThesisType{rigorous}
+%\ThesisType{dissertation}
+%\ThesisType{lifelong}
+
+% Author's name
+\ThesisAuthor{Degree. First Last}
+
+% Year of submission
+\YearSubmitted{2026}
+
+% Supervisor: first and last name with titles
+\Supervisor{Degree. First Last}
+
+% Study programme and branch
+\StudyProgramme{Geology}
+
+% Optional acknowledgements (to the supervisor, a consultant, whoever
+% lent software, literature, etc.)
+\Acknowledgements{%
+I would like to thank the supervisor of my bachelor's thesis, [Degree. First Last, Degree], for their professional guidance, valuable advice, patience, and the time they devoted to me during the preparation of this thesis.
+}
+
+% Abstract (recommended length approx. 150-250 words; this is not the thesis assignment)
+\Abstract{%
+This bachelor's thesis deals with [main topic, e.g. the optimization of logistics processes in a selected company]. The aim of the thesis is to [clear aim, e.g. analyze the current state of warehouse management and propose measures to reduce costs]. The theoretical part summarizes key concepts and current knowledge in the field of [research field, e.g. lean logistics and inventory management]. In the practical part, [method, e.g. a financial and process analysis of the company XYZ is conducted using the ABC method]. Based on the identified shortcomings, which are mainly [main problems, e.g. a high error rate and inefficient goods placement], specific proposals for improvement are formulated in the conclusion of the thesis. The proposed solutions bring [contribution, e.g. a 15\% reduction in dispatch time and financial savings].
+}
+\AbstractCZ{%
+Tato bakalářská práce se zabývá [hlavní téma práce, např. optimalizací logistických procesů ve vybrané firmě]. Cílem práce je [přesný cíl, např. analyzovat současný stav skladového hospodářství a navrhnout opatření ke snížení nákladů]. Teoretická část shrnuje klíčové pojmy a dosavadní poznatky v oblasti [oblast výzkumu, např. štíhlé logistiky a řízení zásob]. V praktické části je provedena [metoda, např. finanční a procesní analýza společnosti XYZ za využití metody ABC]. Na základě zjištěných nedostatků, kterými jsou zejména [hlavní problém, např. vysoká míra chybovosti a neefektivní rozmístění zboží], jsou v závěru práce formulovány konkrétní návrhy na zlepšení. Navržená řešení přinášejí [přínos, např. zkrácení doby expedice o 15\% a finanční úsporu].
+}
+
+% 3 to 5 keywords (recommended)
+\Keywords{keyword, important term, another topic, and another one}
+\KeywordsCZ{klíčové slovo, další pojem, jiný důležitý termín, a ještě jeden}
+
+\begin{document}
+%% Title page and various mandatory information pages
+\thesisfrontmatter
+
+\pagestyle{fancy}
+%%% The individual thesis chapters are kept in separate files for clarity
+\include{chapters-en/introduction}
+\include{chapters-en/chap01}
+\include{chapters-en/chap02}
+\include{chapters-en/chap03}
+\include{chapters-en/chap04}
+% \include{...}
+% \include{...}
+\include{chapters-en/conclusion}
+
+%%% List of references used
+\thesisbibliography
+
+%%% Appendices to the thesis, if any. Every appendix must be referenced at
+%%% least once from the main text. Appendices are numbered.
+\thesisappendices
+\include{appendices-en/appendix01}
+% \include{...}
+% \include{...}
+
+\end{document}

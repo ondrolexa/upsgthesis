@@ -1,0 +1,74 @@
+%% Veškerá struktura, okraje, titulní strana a balíčky jsou v upsgthesis.cls.
+%% Jazyk se volí zde přes volbu třídy (english/czech); pro oboustranný tisk
+%% přidejte i 'twoside,openright'.
+\documentclass[czech,12pt,a4paper,twoside,openright]{upsgthesis}
+
+%%% Údaje o práci
+% Název práce v češtině (přesně podle zadání)
+\ThesisTitleCZ{Název práce}
+% Název práce v angličtině (přesně podle zadání)
+\ThesisTitle{Thesis title}
+
+% Typ práce
+\ThesisType{bachelor}
+%\ThesisType{master}
+%\ThesisType{rigorous}
+%\ThesisType{dissertation}
+%\ThesisType{lifelong}
+
+% Jméno autora
+\ThesisAuthor{Titul. Jméno Příjmení}
+
+% Rok odevzdání
+\YearSubmitted{2026}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\Supervisor{Titul. Jméno Příjmení}
+
+% Studijní program a obor
+\StudyProgramme{Geologie}
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\Acknowledgements{%
+Na tomto místě bych rád poděkoval vedoucímu mé bakalářské práce, panu/paní [Titul. Jméno Příjmení, Titul], za odborné vedení, cenné rady, trpělivost a čas, který mi v průběhu zpracování této práce věnoval.
+}
+
+% Abstrakt (doporučený rozsah cca 150-250 slov; nejedná se o zadání práce)
+\AbstractCZ{%
+Tato bakalářská práce se zabývá [hlavní téma práce, např. optimalizací logistických procesů ve vybrané firmě]. Cílem práce je [přesný cíl, např. analyzovat současný stav skladového hospodářství a navrhnout opatření ke snížení nákladů]. Teoretická část shrnuje klíčové pojmy a dosavadní poznatky v oblasti [oblast výzkumu, např. štíhlé logistiky a řízení zásob]. V praktické části je provedena [metoda, např. finanční a procesní analýza společnosti XYZ za využití metody ABC]. Na základě zjištěných nedostatků, kterými jsou zejména [hlavní problém, např. vysoká míra chybovosti a neefektivní rozmístění zboží], jsou v závěru práce formulovány konkrétní návrhy na zlepšení. Navržená řešení přinášejí [přínos, např. zkrácení doby expedice o 15\% a finanční úsporu].
+}
+\Abstract{%
+This bachelor's thesis deals with [main topic, e.g. the optimization of logistics processes in a selected company]. The aim of the thesis is to [clear aim, e.g. analyze the current state of warehouse management and propose measures to reduce costs]. The theoretical part summarizes key concepts and current knowledge in the field of [research field, e.g. lean logistics and inventory management]. In the practical part, [method, e.g. a financial and process analysis of the company XYZ is conducted using the ABC method]. Based on the identified shortcomings, which are mainly [main problems, e.g. a high error rate and inefficient goods placement], specific proposals for improvement are formulated in the conclusion of the thesis. The proposed solutions bring [contribution, e.g. a 15\% reduction in dispatch time and financial savings].
+}
+
+% 3 až 5 klíčových slov (doporučeno)
+\KeywordsCZ{klíčové slovo, další pojem, jiný důležitý termín, a ještě jeden}
+\Keywords{keyword, important term, another topic, and another one}
+
+\begin{document}
+%% Titulní strana a různé povinné informační strany
+\thesisfrontmatter
+
+\pagestyle{fancy}
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+\include{chapters-cs/uvod}
+\include{chapters-cs/kap01}
+\include{chapters-cs/kap02}
+\include{chapters-cs/kap03}
+\include{chapters-cs/kap04}
+% \include{...}
+% \include{...}
+\include{chapters-cs/zaver}
+
+%%% Seznam použité literatury
+\thesisbibliography
+
+%%% Přílohy k bakalářské práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+\thesisappendices
+\include{appendices-cs/app01}
+% \include{...}
+% \include{...}
+
+\end{document}

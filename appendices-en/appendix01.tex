@@ -1,0 +1,52 @@
+\chapter{Source Code}\label{app:code}
+
+The following Python command-line script reads waypoints from a GPX file and adds them as sites to an SDB database, illustrating a typical short data-processing utility.
+
+\begin{code}[Python]
+from typing import Annotated
+import typer
+from gpx import read_gpx
+from apsg.database import SDBSession
+
+
+def format_name(name):
+    prefix = "".join(c for c in name if not c.isdigit())
+    suffix = "".join(c for c in name if c.isdigit())
+    return f"{prefix}{int(suffix):03d}"
+
+
+def main(
+    sdb: Annotated[str, typer.Argument(help="path of SDB database.")],
+    file: Annotated[str, typer.Argument(help="path of GPX file.")],
+    fixname: bool = False,
+):
+    """
+    Add sites from gpx file to SDB
+
+    Examples:
+        $ add_from_gpx.py dest.sdb file.gpx
+        $ add_from_gpx.py dest.sdb file.gpx --fixname
+
+    """
+    db = SDBSession(sdb)
+    gpx = read_gpx(file)
+    unit = db.unit("Default")
+    for wpt in gpx.wpt:
+        site = db.site(
+            wpt.name,
+            unit=unit, x_coord=float(wpt.lon), y_coord=float(wpt.lat)
+        )
+        print(f"{site} added")
+
+    confirm = input("OK? [y/N] ")
+    if confirm in ["Y", "y"]:
+        db.commit()
+        db.close()
+        print("Done.")
+    else:
+        print("Canceled.")
+
+
+if __name__ == "__main__":
+    typer.run(main)
+\end{code}

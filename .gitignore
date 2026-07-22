@@ -1,16 +1,22 @@
 ## Core latex/pdflatex auxiliary files:
 *.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
 *.lof
 *.log
 *.lot
-*.fls
 *.out
+*.run.xml
+*.synctex.gz
 *.toc
 *.fmt
 *.fot
 *.cb
 *.cb2
-.*.lb
 
 ## Intermediate documents:
 *.dvi
@@ -21,141 +27,15 @@
 # *.eps
 # *.pdf
 
-## Generated if empty string is given at "Please type another file name for output:"
-.pdf
-
-## Bibliography auxiliary files (bibtex/biblatex/biber):
-*.bbl
-*.bbl-SAVE-ERROR
-*.bcf
+# biblatex/biber
 *.bcf-SAVE-ERROR
 *.blg
 *-blx.aux
 *-blx.bib
 *.run.xml
 
-## Build tool auxiliary files:
-*.fdb_latexmk
-*.synctex
-*.synctex(busy)
-*.synctex.gz
-*.synctex.gz(busy)
-*.pdfsync
-*.rubbercache
-rubber.cache
-
-## Build tool directories for auxiliary files
-# latexrun
-latex.out/
-
-## Auxiliary and intermediate files from other packages:
-# algorithms
-*.alg
-*.loa
-
-# achemso
-acs-*.bib
-
-# amsthm
-*.thm
-
-# attachfile2
-*.atfi
-
-# beamer
-*.nav
-*.pre
-*.snm
-*.vrb
-
-# changes
-*.soc
-*.loc
-
-# comment
-*.cut
-
-# context
-*.tuc
-*.tui
-*.tuo
-
-# cprotect
-*.cpt
-
-# elsarticle (documentclass of Elsevier journals)
-*.spl
-
-# endnotes
-*.ent
-
-# fixme
-*.lox
-
-# feynmf/feynmp
-*.mf
-*.mp
-*.t[1-9]
-*.t[1-9][0-9]
-*.tfm
-
-#(r)(e)ledmac/(r)(e)ledpar
-*.end
-*.?end
-*.[1-9]
-*.[1-9][0-9]
-*.[1-9][0-9][0-9]
-*.[1-9]R
-*.[1-9][0-9]R
-*.[1-9][0-9][0-9]R
-*.eledsec[1-9]
-*.eledsec[1-9]R
-*.eledsec[1-9][0-9]
-*.eledsec[1-9][0-9]R
-*.eledsec[1-9][0-9][0-9]
-*.eledsec[1-9][0-9][0-9]R
-
-# glossaries
-*.acn
-*.acr
-*.glg
-*.glg-abr
-*.glo
-*.glo-abr
-*.gls
-*.gls-abr
-*.glsdefs
-*.lzo
-*.lzs
-*.slg
-*.slo
-*.sls
-
-# uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
-
-# gnuplot
-*.gnuplot
-*.table
-
-# gnuplottex
-*-gnuplottex-*
-
-# gregoriotex
-*.gaux
-*.glog
-*.gtex
-
-# htlatex
-*.4ct
-*.4tc
-*.idv
-*.lg
-*.trc
-*.xref
-
-# hypdoc
-*.hd
+# pdfx (PDF/A) intermediate output -- fixed filename, not tied to jobname
+pdfa.xmpi
 
 # hyperref
 *.brf
@@ -179,6 +59,19 @@ acs-*.bib
 *.idx
 *.ilg
 *.ind
+*.glo
+*.gls
+*.glg
+*.acn
+*.acr
+*.alg
+*.ist
+
+# LaTeX Beamer, listings, etc.
+*.nav
+*.snm
+*.vrb
+*.loa
 
 # minitoc
 *.maf
