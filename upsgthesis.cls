@@ -123,6 +123,19 @@
 \RequirePackage{icomma}         % smart comma in math mode
 \RequirePackage{dcolumn}        % better column alignment in tables
 \RequirePackage{booktabs}       % nicer horizontal rules in tables
+\RequirePackage{siunitx}        % physical units typesetting
+\DeclareSIUnit\Ma{Ma}
+\DeclareSIUnit\Ga{Ga}
+\DeclareSIUnit\yr{yr}
+\DeclareSIUnit\annum{a}
+\DeclareSIUnit\kbar{kbar}
+\DeclareSIUnit\wtpercent{wt\%}
+\DeclareSIUnit\ppm{ppm}
+\ifupsgCzech
+  \sisetup{output-decimal-marker = {,}}
+\else
+  \sisetup{output-decimal-marker = {.}}
+\fi
 \makeatletter
 \@ifpackageloaded{xcolor}{
    \@ifpackagewith{xcolor}{usenames}{}{\PassOptionsToPackage{usenames}{xcolor}}
