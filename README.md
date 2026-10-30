@@ -52,7 +52,8 @@ Output: `thesis-en.pdf`. Everything else generated during the build (`.aux`, `.b
 | `chapters-en/` / `chapters-cs/` | Thesis chapters, one file per chapter, `\include`d from the main file. |
 | `appendices-en/` / `appendices-cs/` | Appendices, `\include`d after `\thesisappendices`. Every appendix must be referenced at least once from the main text. |
 | `bibliography.bib` | Default bibliography database (BibTeX/biblatex format); override with `\Bibliography{filename.bib}`. |
-| `figures/` | Shared image assets, including the faculty logos. |
+| `assets/` | Template assets, including the faculty logos. |
+| `figures/` | Figures and illustrations included in the thesis. |
 | `czech-apa.lbx` / `english-apa.lbx` | APA citation-style localization files the class depends on. |
 
 ### Customization
@@ -112,7 +113,8 @@ Výstup: `thesis-cs.pdf`. Vše ostatní vzniklé při sestavení (`.aux`, `.bbl`
 | `chapters-en/` / `chapters-cs/` | Kapitoly práce, jeden soubor na kapitolu, vkládané příkazem `\include` z hlavního souboru. |
 | `appendices-en/` / `appendices-cs/` | Přílohy, vkládané po `\thesisappendices`. Každá příloha musí být alespoň jednou odkazována z vlastního textu. |
 | `bibliography.bib` | Výchozí databáze literatury (formát BibTeX/biblatex); jiný soubor lze nastavit příkazem `\Bibliography{název.bib}`. |
-| `figures/` | Sdílené obrázky, včetně loga fakulty. |
+| `assets/` | Soubory šablony, včetně loga fakulty. |
+| `figures/` | Obrázky a ilustrace vkládané do práce. |
 | `czech-apa.lbx` / `english-apa.lbx` | Lokalizační soubory citačního stylu APA, na kterých třída závisí. |
 
 ### Přizpůsobení

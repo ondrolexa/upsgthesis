@@ -332,7 +332,7 @@
 \upsgStrStudyProgramme: \upsgStudyProgramme \\[2cm]
 
 \begin{figure}[h!]
-\begin{center} \includegraphics[height=7cm]{figures/logo_color}
+\begin{center} \includegraphics[height=7cm]{assets/logo_color}
 \end{center}
 \end{figure}
 \vspace{2cm}
