@@ -52,9 +52,12 @@
 %% just clashes with pdfx's own options (see warning "Option 'pdftex' has
 %% already been used"). Any extra option (e.g. hidelinks) is set via
 %% \hypersetup after pdfx is loaded.
+%% xcolor is loaded before pdfx: otherwise pdfx loads it with the obsolete
+%% `hyperref' option (warning "Package option `hyperref' is obsolete").
+%% The `pdfa' hyperref option is already set by pdfx itself.
+\RequirePackage[rgb]{xcolor}    % colour typesetting
 \RequirePackage[a-2u]{pdfx}     % the resulting PDF will conform to the PDF/A-2u standard
 \hypersetup{hidelinks}
-\hypersetup{pdfa}
 \hypersetup{unicode}
 
 %% Language: Czech or English typesetting, Latin Modern fonts, proper font encoding.
@@ -127,20 +130,24 @@
 \DeclareSIUnit\Ma{Ma}
 \DeclareSIUnit\Ga{Ga}
 \DeclareSIUnit\yr{yr}
+\sisetup{uncertainty-mode = separate} % 337.13 ± 0.37 rather than 337.13(37)
 \DeclareSIUnit\annum{a}
 \DeclareSIUnit\kbar{kbar}
 \DeclareSIUnit\wtpercent{wt\%}
 \DeclareSIUnit\ppm{ppm}
 \ifupsgCzech
   \sisetup{output-decimal-marker = {,}}
+  % siunitx has no Czech translations: without these it prints
+  % "1,8 Ga to (numerical range) 2,7 Ga" etc.
+  \sisetup{
+    range-phrase = {--}, range-units = single,
+    list-pair-separator = {~a~}, list-final-separator = {~a~},
+    list-separator = {,~},
+    product-symbol = {\times},
+  }
 \else
   \sisetup{output-decimal-marker = {.}}
 \fi
-\makeatletter
-\@ifpackageloaded{xcolor}{
-   \@ifpackagewith{xcolor}{usenames}{}{\PassOptionsToPackage{usenames}{xcolor}}
-  }{\RequirePackage[usenames]{xcolor}} % colour typesetting
-\makeatother
 \RequirePackage{multicol}       % working with multiple columns on a page
 \RequirePackage[font={small,it}]{caption}
 \RequirePackage{enumitem}
@@ -151,17 +158,30 @@
 % paragraph styling
 \parindent=0pt
 \parskip=11pt
+% rigid \parskip + twoside (\flushbottom) leads to "Underfull \vbox while
+% \output is active" on pages next to floats; let page bottoms vary instead
+\raggedbottom
 
 % forbid widows and orphans - single-line paragraph starts/ends across a page break
 \clubpenalty=1000
 \widowpenalty=1000
 \displaywidowpenalty=1000
 
+% allow a little extra interword stretch before giving up on a paragraph
+% (avoids underfull/overfull lines around unbreakable quantities)
+\emergencystretch=1.5em
+
 % line spacing
 \renewcommand{\baselinestretch}{1.20}
 
 % heading style - bold and sans-serif
+%% sectsty (2002) checks \underbar/\underline against their pre-2020 kernel
+%% definitions and warns "Command \underline has changed". The check is
+%% purely informational, so it is skipped while sectsty is loaded.
+\let\upsgSavedCheckCommand\CheckCommand
+\def\CheckCommand*#1[#2]#3{}
 \RequirePackage{sectsty}
+\let\CheckCommand\upsgSavedCheckCommand
 \allsectionsfont{\sffamily}
 
 % header and footer setup
