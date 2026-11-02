@@ -5,6 +5,9 @@
 %%% Thesis language is selected as a class option:
 %%%   \documentclass[english]{upsgthesis}
 %%%   \documentclass[czech]{upsgthesis}
+%%% Option `nocaseconv` disables biblatex-apa's sentence-case conversion of
+%%% bibliography titles (titles then print exactly as entered in the .bib);
+%%% off by default, i.e. APA sentence case is applied.
 %%% All other options (12pt, a4paper, twoside, openright, ...) are passed
 %%% through to the underlying `report` class unchanged.
 
@@ -14,6 +17,8 @@
 \newif\ifupsgCzech
 \DeclareOption{english}{\upsgCzechfalse}
 \DeclareOption{czech}{\upsgCzechtrue}
+\newif\ifupsgNoCaseConv
+\DeclareOption{nocaseconv}{\upsgNoCaseConvtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 \ExecuteOptions{english}
 \ProcessOptions\relax

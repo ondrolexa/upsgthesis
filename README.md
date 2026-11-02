@@ -61,6 +61,7 @@ Output: `thesis-en.pdf`. Everything else generated during the build (`.aux`, `.b
 - **Sides**: add `twoside,openright` to the `\documentclass[...]` options for double-sided printing; margins and page-break behavior (`\openright`) adapt automatically.
 - **Thesis type**: `\ThesisType{bachelor}` (or `master`/`rigorous`/`dissertation`/`lifelong`) — always produces the correctly localized string for the active language.
 - **Citation style**: the class defaults to `style=apa`; see `chapters-en/chap03.tex`/`chapters-cs/kap03.tex` for how to switch styles or use plain `thebibliography` instead of a database.
+- **Title case in the bibliography**: by default `biblatex-apa` converts reference titles to APA sentence case (protect proper nouns in the `.bib` with `{Braces}`). Add the `nocaseconv` class option (e.g. `\documentclass[english,nocaseconv]{upsgthesis}`) to disable the conversion, so titles print exactly as entered in the `.bib` file.
 - **Typography**: see `chapters-en/chap01.tex`/`chapters-cs/kap01.tex` for the non-breaking-space, quoting, and dash conventions this template follows.
 
 ---
@@ -122,4 +123,5 @@ Výstup: `thesis-cs.pdf`. Vše ostatní vzniklé při sestavení (`.aux`, `.bbl`
 - **Jednostranný/oboustranný tisk**: pro oboustranný tisk přidejte do voleb `\documentclass[...]` `twoside,openright`; okraje i chování zalomení stránky (`\openright`) se přizpůsobí automaticky.
 - **Typ práce**: `\ThesisType{bachelor}` (nebo `master`/`rigorous`/`dissertation`/`lifelong`) — vždy vygeneruje správně lokalizovaný text podle aktivního jazyka.
 - **Citační styl**: výchozí je `style=apa`; viz `chapters-cs/kap03.tex`/`chapters-en/chap03.tex`, jak přepnout styl nebo použít prostředí `thebibliography` místo databáze.
+- **Velikost písmen v názvech citací**: `biblatex-apa` ve výchozím stavu převádí názvy referencí na velikost písmen podle APA (velké jen první písmeno; vlastní jména v `.bib` chraňte `{složenými závorkami}`). Volbou třídy `nocaseconv` (např. `\documentclass[czech,nocaseconv]{upsgthesis}`) převod vypnete a názvy se vytisknou přesně tak, jak jsou zapsány v souboru `.bib`.
 - **Typografie**: viz `chapters-cs/kap01.tex`/`chapters-en/chap01.tex` pro konvence nedělitelných mezer, uvozovek a pomlček, které tato šablona dodržuje.
