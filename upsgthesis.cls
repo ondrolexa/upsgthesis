@@ -8,6 +8,8 @@
 %%% Option `nocaseconv` disables biblatex-apa's sentence-case conversion of
 %%% bibliography titles (titles then print exactly as entered in the .bib);
 %%% off by default, i.e. APA sentence case is applied.
+%%% Option `markoverfull` marks overfull lines with a black bar in the
+%%% margin (a drafting aid; off by default so the final PDF stays clean).
 %%% All other options (12pt, a4paper, twoside, openright, ...) are passed
 %%% through to the underlying `report` class unchanged.
 
@@ -19,7 +21,25 @@
 \DeclareOption{czech}{\upsgCzechtrue}
 \newif\ifupsgNoCaseConv
 \DeclareOption{nocaseconv}{\upsgNoCaseConvtrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\newif\ifupsgMarkOverfull
+\DeclareOption{markoverfull}{\upsgMarkOverfulltrue}
+%% Everything else goes to `report`. Options that report doesn't know are
+%% still passed on (as global options they may be meant for a package, e.g.
+%% xcolor's `dvipsnames`), but a warning is issued so that a typo such as
+%% `czesh` doesn't silently produce an English thesis.
+\def\upsgReportOptions{10pt,11pt,12pt,a4paper,a5paper,b5paper,letterpaper,%
+  legalpaper,executivepaper,landscape,oneside,twoside,openright,openany,%
+  onecolumn,twocolumn,titlepage,notitlepage,leqno,fleqn,openbib,draft,final}
+\DeclareOption*{%
+  \PassOptionsToClass{\CurrentOption}{report}%
+  \def\upsgIsKnown{0}%
+  \@for\upsgOpt:=\upsgReportOptions\do{%
+    \ifx\upsgOpt\CurrentOption\def\upsgIsKnown{1}\fi}%
+  \if0\upsgIsKnown
+    \ClassWarningNoLine{upsgthesis}{Unknown class option `\CurrentOption'
+      (passed on to report/packages). Thesis language options are `english'
+      and `czech'}%
+  \fi}
 \ExecuteOptions{english}
 \ProcessOptions\relax
 \LoadClass{report}
@@ -59,11 +79,9 @@
 %% \hypersetup after pdfx is loaded.
 %% xcolor is loaded before pdfx: otherwise pdfx loads it with the obsolete
 %% `hyperref' option (warning "Package option `hyperref' is obsolete").
-%% The `pdfa' hyperref option is already set by pdfx itself.
 \RequirePackage[rgb]{xcolor}    % colour typesetting
 \RequirePackage[a-2u]{pdfx}     % the resulting PDF will conform to the PDF/A-2u standard
-\hypersetup{hidelinks}
-\hypersetup{unicode}
+\hypersetup{hidelinks}   % (`unicode' and `pdfa' are already set by pdfx)
 
 %% Language: Czech or English typesetting, Latin Modern fonts, proper font encoding.
 \ifupsgCzech
@@ -71,17 +89,54 @@
 \else
   \RequirePackage[english]{babel}
 \fi
-\RequirePackage{lmodern}
-\RequirePackage[T1]{fontenc}
-\RequirePackage{zi4}            % Inconsolata: a more condensed, modern monospace font for code
-\RequirePackage{textcomp}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{csquotes}
-\RequirePackage{datetime}
-\ifupsgCzech
-  \newdateformat{thesisdate}{\THEDAY. \THEMONTH. \THEYEAR}
+%% Fonts and encoding depend on the engine (detected via iftex):
+%%  - pdfLaTeX: 8-bit engine -> Type 1 Latin Modern in T1 encoding, UTF-8
+%%    input via inputenc, Inconsolata via the zi4 package.
+%%  - XeLaTeX/LuaLaTeX: Unicode engines -> OpenType fonts via fontspec
+%%    (TU encoding, native UTF-8); fontenc/inputenc must NOT be loaded here.
+%%    Same typefaces (Latin Modern + Inconsolata), so output looks the same.
+\RequirePackage{iftex}
+\ifPDFTeX
+  \RequirePackage{lmodern}
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage{zi4}          % Inconsolata: a more condensed, modern monospace font for code
+  \RequirePackage{textcomp}
+  \RequirePackage[utf8]{inputenc}
 \else
-  \newdateformat{thesisdate}{\THEDAY~\monthname[\THEMONTH]~\THEYEAR}
+  % lmodern first so that math (still set in legacy 8-bit fonts, OML/OMS)
+  % uses Latin Modern as under pdfLaTeX; fontspec then overrides text fonts.
+  \RequirePackage{lmodern}
+  \RequirePackage{fontspec}
+  % Fonts are selected by file name (shipped with TeX Live), not by system
+  % font name, so they are found even when not installed in fontconfig.
+  \setmainfont{lmroman10}[Extension=.otf, UprightFont=*-regular,
+    BoldFont=*-bold, ItalicFont=*-italic, BoldItalicFont=*-bolditalic]
+  \setsansfont{lmsans10}[Extension=.otf, UprightFont=*-regular,
+    BoldFont=*-bold, ItalicFont=*-oblique, BoldItalicFont=*-boldoblique]
+  \setmonofont{Inconsolatazi4}[Extension=.otf, UprightFont=*-Regular,
+    BoldFont=*-Bold, Scale=MatchLowercase]
+  % babel-czech defines its quote commands (\clqq etc., used by csquotes'
+  % Czech style) only for OT1/T1; under TU they would fall back to OT1 and
+  % silently pull in Computer Modern glyphs. Provide TU versions mirroring
+  % babel-czech's own T1 definitions (\Provide..., so a future babel-czech
+  % that defines them for TU itself takes precedence instead of clashing).
+  \makeatletter
+  \ProvideTextCommand{\clqq}{TU}{\kern.1em\quotedblbase\kern-.0158em\relax}
+  \ProvideTextCommand{\crqq}{TU}{\save@sf@q{\nobreak\kern.06em\textquotedblleft\kern.024em}}
+  \ProvideTextCommand{\clq}{TU}{\quotesinglbase\kern-.0428em\relax}
+  \ProvideTextCommand{\crq}{TU}{\save@sf@q{\nobreak\textquoteleft\kern.17em}}
+  \makeatother
+\fi
+\RequirePackage{csquotes}
+%% Date on the declaration page (Czech "3. 11. 2026", English
+%% "3 November 2026"). Defined directly rather than via the obsolete
+%% `datetime' package, whose \newdateformat also changed \today globally.
+\ifupsgCzech
+  \newcommand{\upsgDate}{\number\day.~\number\month.~\number\year}
+\else
+  \newcommand{\upsgDate}{\number\day~\ifcase\month\or January\or February\or
+    March\or April\or May\or June\or July\or August\or September\or
+    October\or November\or December\fi~\number\year}
 \fi
 
 %%% Settings for using a standalone bibliography database.
@@ -116,6 +171,11 @@
 \DeclareNameAlias{sortname}{family-given}
 % Page numbers without a prefix
 \DeclareFieldFormat{pages}{#1}
+% With the `nocaseconv` class option, disable biblatex-apa's sentence-case
+% conversion of titles entirely, so titles print exactly as entered in the .bib
+\ifupsgNoCaseConv
+  \DeclareFieldFormat{apacase}{#1}
+\fi
 \let\cite\parencite
 \def\upsgBibFile{bibliography.bib}
 \newcommand{\Bibliography}[1]{\renewcommand{\upsgBibFile}{#1}}
@@ -167,14 +227,11 @@
 % \output is active" on pages next to floats; let page bottoms vary instead
 \raggedbottom
 
-% forbid widows and orphans - single-line paragraph starts/ends across a page break
+% discourage (not forbid -- that would need 10000) widows and orphans:
+% single-line paragraph starts/ends across a page break
 \clubpenalty=1000
 \widowpenalty=1000
 \displaywidowpenalty=1000
-
-% allow a little extra interword stretch before giving up on a paragraph
-% (avoids underfull/overfull lines around unbreakable quantities)
-\emergencystretch=1.5em
 
 % line spacing
 \renewcommand{\baselinestretch}{1.20}
@@ -189,14 +246,22 @@
 \let\CheckCommand\upsgSavedCheckCommand
 \allsectionsfont{\sffamily}
 
-% header and footer setup
+% header and footer setup: outer edge in twoside (odd right, even left),
+% right edge in oneside (fancyhdr warns about `E' positions without twoside)
+\makeatletter
+\if@twoside
+  \def\upsgOuter{RO,LE}
+\else
+  \def\upsgOuter{R}
+\fi
+\makeatother
 \fancyhf{}
-\fancyhead[RO,LE]{\rightmark}
-\fancyfoot[RO,LE]{\thepage}
+\expandafter\fancyhead\expandafter[\upsgOuter]{\rightmark}
+\expandafter\fancyfoot\expandafter[\upsgOuter]{\thepage}
 \renewcommand{\footrulewidth}{.5pt}
 \fancypagestyle{plain}{%
 \fancyhf{} % clear all header and footer fields
-\fancyfoot[RO,LE]{\thepage}
+\expandafter\fancyfoot\expandafter[\upsgOuter]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.5pt}}
 
@@ -222,9 +287,15 @@
 }}
 \makeatother
 
-% Somewhat looser word-hyphenation settings than the default.
-\lefthyphenmin=2
-\righthyphenmin=2
+% Somewhat looser word-hyphenation settings than the default (at least 2
+% letters before/after a hyphen). babel resets \lefthyphenmin/\righthyphenmin
+% to the language's own values at every language switch (incl. at
+% \begin{document}; English uses 2/3), so set them through babel.
+\ifdefined\babelhyphenmins
+  \babelhyphenmins[\ifupsgCzech czech\else english\fi]{2}{2}
+\else % babel older than 3.98
+  \expandafter\def\csname\ifupsgCzech czech\else english\fi hyphenmins\endcsname{22}
+\fi
 
 % More aggressive hyphenation: LaTeX normally first tries to break a line
 % WITHOUT hyphenation (\pretolerance) and only hyphenates if that fails.
@@ -238,9 +309,14 @@
 \exhyphenpenalty=50
 \emergencystretch=3em
 
-% Turns on black "slugs" at the end of overflowing lines, so we notice
-% them more easily.
-\overfullrule=1mm
+% With the `markoverfull` class option, black "slugs" mark the end of
+% overflowing lines, so they are easy to spot while writing. Off by default
+% so they never end up in the submitted PDF.
+\ifupsgMarkOverfull
+  \overfullrule=1mm
+\else
+  \overfullrule=0pt
+\fi
 
 %%% Environment for typesetting code, or the input/output of computer
 %%% programs, with syntax highlighting (via the listings package). Usage:
@@ -296,6 +372,7 @@
   \def\upsgStrSignature{Podpis studenta}
   \def\upsgStrAcknowledgements{Poděkování}
   \def\upsgStrAppendices{Přílohy}
+  \def\upsgStrBibliography{Seznam použité literatury}% babel's \bibname is just "Literatura"
   \def\upsgStrTypeBachelor{Bakalářská práce}
   \def\upsgStrTypeMaster{Diplomová práce}
   \def\upsgStrTypeRigorous{Rigorózní práce}
@@ -315,6 +392,7 @@
   \def\upsgStrSignature{Student's signature}
   \def\upsgStrAcknowledgements{Acknowledgements}
   \def\upsgStrAppendices{Appendices}
+  \def\upsgStrBibliography{\bibname}% "Bibliography"
   \def\upsgStrTypeBachelor{Bachelor's Thesis}
   \def\upsgStrTypeMaster{Master's Thesis}
   \def\upsgStrTypeRigorous{Rigorous Thesis}
@@ -329,6 +407,12 @@
 %%%============================================================
 %%% Metadata-setting commands, called from the main .tex file
 %%%============================================================
+%% Every field starts empty, so omitting a setter never causes an
+%% "Undefined control sequence" error. Missing mandatory fields produce a
+%% class warning at \begin{document}; empty acknowledgements skip that page.
+\def\upsgTitle{}\def\upsgTitleCZ{}\def\upsgAuthor{}\def\upsgSupervisor{}
+\def\upsgStudyProgramme{}\def\upsgYear{}\def\upsgAcknowledgements{}
+\def\upsgAbstract{}\def\upsgAbstractCZ{}\def\upsgKeywords{}\def\upsgKeywordsCZ{}
 \newcommand{\ThesisTitle}[1]{\def\upsgTitle{#1}}
 \newcommand{\ThesisTitleCZ}[1]{\def\upsgTitleCZ{#1}}
 \newcommand{\ThesisAuthor}[1]{\def\upsgAuthor{#1}}
@@ -352,6 +436,22 @@
 }
 \ThesisType{bachelor}% default
 
+\AtBeginDocument{%
+  \def\upsgCheckField#1#2{%
+    \ifdefempty{#1}{\ClassWarningNoLine{upsgthesis}{Mandatory field
+      \string#2 is not set (or empty)}}{}}%
+  \upsgCheckField\upsgTitle\ThesisTitle
+  \upsgCheckField\upsgTitleCZ\ThesisTitleCZ
+  \upsgCheckField\upsgAuthor\ThesisAuthor
+  \upsgCheckField\upsgSupervisor\Supervisor
+  \upsgCheckField\upsgStudyProgramme\StudyProgramme
+  \upsgCheckField\upsgYear\YearSubmitted
+  \upsgCheckField\upsgAbstract\Abstract
+  \upsgCheckField\upsgAbstractCZ\AbstractCZ
+  \upsgCheckField\upsgKeywords\Keywords
+  \upsgCheckField\upsgKeywordsCZ\KeywordsCZ
+}
+
 
 %%%============================================================
 %%% Structural commands, called from the main .tex file
@@ -369,10 +469,7 @@
 
 \upsgStrStudyProgramme: \upsgStudyProgramme \\[2cm]
 
-\begin{figure}[h!]
-\begin{center} \includegraphics[height=7cm]{assets/logo_color}
-\end{center}
-\end{figure}
+\includegraphics[height=7cm]{assets/logo_color}\par
 \vspace{2cm}
 
 {\large \textbf{\upsgAuthor}} \\[1cm]
@@ -389,8 +486,6 @@
 \upsgStrCity, \upsgYear
 \end{titlepage}
 
-\openright
-
 \hypersetup{pageanchor=true}
 \pagestyle{empty}
 \openright
@@ -401,7 +496,7 @@
 
 \vspace{2cm}
 \noindent
-\upsgStrInCity, \thesisdate\today \hfill
+\upsgStrInCity, \upsgDate \hfill
 \hfill%
 \begin{minipage}[t]{.5\textwidth}%
 \begin{center}
@@ -411,12 +506,14 @@
 \end{minipage}
 \vspace{1cm}
 
+\ifdefempty{\upsgAcknowledgements}{}{%
 \openright
 \vspace*{\fill}
 \section*{\upsgStrAcknowledgements}
 \noindent
 \upsgAcknowledgements
 \vspace*{\fill}
+}
 
 \openright
 \ifupsgCzech
@@ -470,15 +567,16 @@
 
 %% Bibliography (replaces \include{required/bibliography}).
 \newcommand{\thesisbibliography}{%
-\ifupsgCzech
-  \printbibliography[title={Seznam použité literatury},heading={bibintoc}]%
-\else
-  \printbibliography[heading={bibintoc}]%
-\fi
+\printbibliography[title={\upsgStrBibliography},heading={bibintoc}]%
 }
 
 %% Appendices part heading + \appendix (replaces the \part*{...}\appendix boilerplate).
+%% \part* is unnumbered and would not appear in the ToC/bookmarks; add the
+%% entry by hand on the (already cleared) part page so it links correctly.
 \newcommand{\thesisappendices}{%
+\openright
+\phantomsection
+\addcontentsline{toc}{part}{\upsgStrAppendices}%
 \part*{\upsgStrAppendices}%
 \appendix
 }

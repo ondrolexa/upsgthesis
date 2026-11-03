@@ -19,7 +19,7 @@ Per Charles University's formal requirements, **both** a Czech and an English ti
 
 ### Requirements
 
-- A TeX distribution with `pdflatex`, `biber`, and the packages this class loads (`geometry`, `tocloft`, `pdfx`, `hyperref`, `babel` with `czech`+`english`, `biblatex` + `biblatex-apa`, `fancyhdr`, `booktabs`, `dcolumn`, and a few others — all standard in a full TeX Live/MiKTeX install).
+- A TeX distribution with `pdflatex` (or `xelatex`/`lualatex`), `biber`, and the packages this class loads (`geometry`, `tocloft`, `pdfx`, `hyperref`, `babel` with `czech`+`english`, `biblatex` + `biblatex-apa`, `fancyhdr`, `booktabs`, `dcolumn`, and a few others — all standard in a full TeX Live/MiKTeX install).
 - `czech-apa.lbx` and `english-apa.lbx` (bundled in this repo) must stay in the same directory as the main `.tex` file you compile — `biblatex-apa` ships no Czech localization, so this template carries its own.
 
 ### Quick start
@@ -40,6 +40,8 @@ biber thesis-en
 pdflatex thesis-en.tex
 pdflatex thesis-en.tex   # second pass to resolve cross-references/TOC
 ```
+
+`xelatex` or `lualatex` can be used in place of `pdflatex` (same sequence, with `biber` in between). The class detects the engine automatically and switches font/encoding setup — Type 1 fonts with `fontenc`/`inputenc` under pdfLaTeX, OpenType fonts via `fontspec` under XeLaTeX/LuaLaTeX — with the same typefaces (Latin Modern, Inconsolata), so the output looks the same.
 
 Output: `thesis-en.pdf`. Everything else generated during the build (`.aux`, `.bbl`, `.log`, etc., plus `pdfa.xmpi`) is a build artifact — safe to delete, and already excluded from version control via `.gitignore`.
 
@@ -62,6 +64,8 @@ Output: `thesis-en.pdf`. Everything else generated during the build (`.aux`, `.b
 - **Thesis type**: `\ThesisType{bachelor}` (or `master`/`rigorous`/`dissertation`/`lifelong`) — always produces the correctly localized string for the active language.
 - **Citation style**: the class defaults to `style=apa`; see `chapters-en/chap03.tex`/`chapters-cs/kap03.tex` for how to switch styles or use plain `thebibliography` instead of a database.
 - **Title case in the bibliography**: by default `biblatex-apa` converts reference titles to APA sentence case (protect proper nouns in the `.bib` with `{Braces}`). Add the `nocaseconv` class option (e.g. `\documentclass[english,nocaseconv]{upsgthesis}`) to disable the conversion, so titles print exactly as entered in the `.bib` file.
+- **Overfull lines**: add the `markoverfull` class option while writing to mark overfull lines with a black bar in the margin; leave it out for the final PDF.
+- **Acknowledgements** are optional: omit `\Acknowledgements` (or leave it empty) and the page is skipped. Missing mandatory fields (title, author, abstracts, ...) produce a warning in the log.
 - **Typography**: see `chapters-en/chap01.tex`/`chapters-cs/kap01.tex` for the non-breaking-space, quoting, and dash conventions this template follows.
 
 ---
@@ -81,7 +85,7 @@ Podle formálních požadavků Univerzity Karlovy jsou **vždy** povinné jak č
 
 ### Požadavky
 
-- Distribuce TeXu s `pdflatex`, `biber` a balíčky, které tato třída načítá (`geometry`, `tocloft`, `pdfx`, `hyperref`, `babel` s `czech`+`english`, `biblatex` + `biblatex-apa`, `fancyhdr`, `booktabs`, `dcolumn` a několik dalších — vše běžná součást plné instalace TeX Live/MiKTeX).
+- Distribuce TeXu s `pdflatex` (nebo `xelatex`/`lualatex`), `biber` a balíčky, které tato třída načítá (`geometry`, `tocloft`, `pdfx`, `hyperref`, `babel` s `czech`+`english`, `biblatex` + `biblatex-apa`, `fancyhdr`, `booktabs`, `dcolumn` a několik dalších — vše běžná součást plné instalace TeX Live/MiKTeX).
 - Soubory `czech-apa.lbx` a `english-apa.lbx` (součástí tohoto repozitáře) musí zůstat ve stejném adresáři jako hlavní `.tex` soubor, který kompilujete — balíček `biblatex-apa` česká lokalizace neobsahuje, tato šablona si ji nese vlastní.
 
 ### Rychlý start
@@ -102,6 +106,8 @@ biber thesis-cs
 pdflatex thesis-cs.tex
 pdflatex thesis-cs.tex   # druhý průchod kvůli křížovým odkazům a obsahu
 ```
+
+Místo `pdflatex` lze použít i `xelatex` nebo `lualatex` (stejná sekvence, mezi nimi `biber`). Třída engine rozpozná automaticky a podle něj přepne nastavení písem a kódování — fonty Type 1 s `fontenc`/`inputenc` v pdfLaTeXu, fonty OpenType přes `fontspec` v XeLaTeXu/LuaLaTeXu — se stejnými řezy písma (Latin Modern, Inconsolata), takže výstup vypadá stejně.
 
 Výstup: `thesis-cs.pdf`. Vše ostatní vzniklé při sestavení (`.aux`, `.bbl`, `.log` atd. a `pdfa.xmpi`) jsou pomocné soubory buildu — lze je bez obav smazat, a jsou už vyloučeny z verzování přes `.gitignore`.
 
@@ -124,4 +130,6 @@ Výstup: `thesis-cs.pdf`. Vše ostatní vzniklé při sestavení (`.aux`, `.bbl`
 - **Typ práce**: `\ThesisType{bachelor}` (nebo `master`/`rigorous`/`dissertation`/`lifelong`) — vždy vygeneruje správně lokalizovaný text podle aktivního jazyka.
 - **Citační styl**: výchozí je `style=apa`; viz `chapters-cs/kap03.tex`/`chapters-en/chap03.tex`, jak přepnout styl nebo použít prostředí `thebibliography` místo databáze.
 - **Velikost písmen v názvech citací**: `biblatex-apa` ve výchozím stavu převádí názvy referencí na velikost písmen podle APA (velké jen první písmeno; vlastní jména v `.bib` chraňte `{složenými závorkami}`). Volbou třídy `nocaseconv` (např. `\documentclass[czech,nocaseconv]{upsgthesis}`) převod vypnete a názvy se vytisknou přesně tak, jak jsou zapsány v souboru `.bib`.
+- **Přetékající řádky**: při psaní přidejte volbu třídy `markoverfull`, která přetékající řádky označí černým obdélníkem na okraji; pro finální PDF ji vynechte.
+- **Poděkování** je nepovinné: když `\Acknowledgements` vynecháte (nebo necháte prázdné), stránka se nevysází. Chybějící povinné údaje (název, autor, abstrakty, …) vypíší varování do logu.
 - **Typografie**: viz `chapters-cs/kap01.tex`/`chapters-en/chap01.tex` pro konvence nedělitelných mezer, uvozovek a pomlček, které tato šablona dodržuje.
